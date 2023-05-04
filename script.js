@@ -1,80 +1,71 @@
-/*
-let productsList = [
-    {
-        title: "Orange",
-        priceInDollars: 3,
-        weightInGramms: 500,
-    },
-    {
-        title: "Watermelon",
-        priceInDollars: 6,
-        weightInGramms: 1500,
-    },
-    {
-        title: "Melon",
-        priceInDollars: 10,
-        weightInGramms: 1000,
-    }
-]
-
-productsList.forEach(product => {
-    console.log(product.title);
-})
-*/
-
-/*
-console.log("hello 1");
-
-fetch('https://api.escuelajs.co/api/v1/products')
-    .then((response) => console.log("Response:", response.json()));
-
-console.log("hello 2");
-*/
-
-/*
-let promise = new Promise((resolve, reject) => {
-    // задача - выполнить асинхронную функцию, и вернуть статус
-    let isDonateBike = 'yes';
-    resolve(isDonateBike); // status - fulfilled
-});
-
-let promiseError = new Promise((resolve, reject) => {
-    let isDonateBike = 'no';
-    reject(new Error('error')); // status - rejected
-});
-*/
-
-/*
-let promise = new Promise((resolve, reject) => {
-    let data = getData();
-    resolve(data); // state - fulfilled
-})
-.then((response) => {
-    console.log(response);
-})
-.catch((error) => {
-    console.log(error);
-})
-*/
-
-console.log("script");
+const BASE_URL = 'https://fakestoreapi.com'
 
 let productsDOM = document.querySelector(".products-center");
+let selectDOM = document.querySelector(".choose-category");   
 
-const API_URL = 'https://api.escuelajs.co/api/v1/products'
+function createUI(data) {
+    productsDOM.innerHTML = "";
+    data.forEach((item) => {
+        productsDOM.innerHTML += `
+            <div class="products-item">
+                <div class="products-title">${item.title}</div>
+                <div><img class="products-photo" src=${item.image} alt="product item"/></div>
+                <div class="products-price">${item.price} $</div>
+            </div>
+        `
+    })
+}
 
-let isLoading = true;
-fetch(API_URL)
-    .then((response) => response.json())
-    .then((data) => {
-        data.forEach(product => {
-            productsDOM.innerHTML += `
-                <h1>${product.title}</h1>
-                <div class="price">Price: ${product.price}$</div>
-            `
-        });
-    })
-    .catch((error) => console.error("ERROR:", error))
-    .finally(() => {
-        isLoading = false;
-    })
+function getProducts() {    
+    fetch(BASE_URL + '/products')
+        .then(response => response.json())
+        .then(data => {
+            createUI(data);
+        })
+        .catch(error => {
+            console.log('Products error:', error);
+        })
+}
+
+function getCategories() {
+    fetch(BASE_URL + '/products/categories')
+        .then(response => response.json())
+        .then(categories => {
+            categories.unshift('all');
+            categories.forEach((category) => {
+                const newOption = document.createElement('option');
+                newOption.innerHTML = category;
+                selectDOM.appendChild(newOption);
+            })
+        })
+        .catch(error => {
+            console.log('Categories error:', error);
+        })
+}
+
+function getProductFromCategory(value) {
+    fetch(BASE_URL + `/products/category/${value}`)
+        .then(response => response.json())
+        .then(data => {
+            createUI(data);
+        })
+        .catch(error => {
+            console.log('Products error:', error);
+        })
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    getProducts();
+    getCategories();
+}) 
+
+// get products from category
+selectDOM.addEventListener('change', function() {
+    console.log('select', selectDOM.value);
+    if (selectDOM.value === "all") {
+        getProducts();
+    }
+    else {
+        getProductFromCategory(selectDOM.value);
+    }
+})
