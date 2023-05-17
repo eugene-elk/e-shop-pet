@@ -1,15 +1,15 @@
-import { BASE_URL } from "../api.js";
+import { BASE_URL } from '../api.js';
 
 class Products {
-  async getProducts() {
-    try {
-      let result = await fetch(BASE_URL + "/products");
-      let data = await result.json();
-      return data;
-    } catch (err) {
-      console.log("Error getProducts:", err);
-    }
-    /*
+	async getProducts() {
+		try {
+			let result = await fetch(BASE_URL + '/products');
+			let data = await result.json();
+			return data;
+		} catch (err) {
+			console.log('Error getProducts:', err);
+		}
+		/*
     fetch(BASE_URL + "/products")
       .then((response) => response.json())
       .then((data) => {
@@ -21,7 +21,7 @@ class Products {
       });
   }
   */
-  }
+	}
 }
 
 let products = new Products();
