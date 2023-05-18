@@ -2,7 +2,7 @@ import { products } from './components/products.js';
 import { ui } from './components/UI.js';
 import { categories } from './components/categories.js';
 import { productsByCategory } from './components/productsBy.js';
-import { selectDOM } from './DOM.js';
+import { selectDOM } from './indexDOM.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
 	let productsData = await products.getProducts();

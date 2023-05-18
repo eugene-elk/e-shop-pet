@@ -1,5 +1,5 @@
 import { BASE_URL } from '../api.js';
-import { selectDOM } from '../DOM.js';
+import { selectDOM } from '../indexDOM.js';
 
 class Categories {
 	getCategories() {
