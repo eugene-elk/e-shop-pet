@@ -10,8 +10,6 @@ class ProductUI {
 		ratingDOM.innerHTML = `${data.rating.rate} / 5.0`;
 		descriptionDOM.innerHTML = `${data.description}`;
 		priceDOM.innerHTML = `${data.price.toFixed(2)} $`;
-
-		console.log(data);
 	}
 }
 
