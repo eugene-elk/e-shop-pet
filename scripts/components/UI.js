@@ -1,20 +1,27 @@
-import { productsDOM } from '../indexDOM.js';
+import { productsDOM, containerDOM } from '../DOM.js';
+import { productById } from './productById.js';
 
 class UI {
 	createUI(data) {
 		productsDOM.innerHTML = '';
 		data.forEach((item) => {
 			productsDOM.innerHTML += `
-                <a href="${window.location.origin}/product.html?id=${item.id}">
-                    <div class="products-item">
-                        <div class="products-title">${item.title}</div>
-                        <div>
-                            <img class="products-photo" src=${item.image} alt="product item"/>    
-                        </div>
-                        <div class="products-price">${item.price.toFixed(2)} $</div>
-                    </div>
-                </a>
+                <div class="products-item" id="${item.id}">
+                    <div class="products-title">${item.title}</div>
+                    <div>
+                        <img class="products-photo" src=${item.image} alt="product item"/>    
+                    </div>                        
+                    <div class="products-price">${item.price.toFixed(2)} $</div>
+                </div>
             `;
+		});
+
+		let products = document.querySelectorAll('.products-item');
+
+		products.forEach((product) => {
+			product.addEventListener('click', () => {
+				productById.getProductByID(product.id);
+			});
 		});
 	}
 }

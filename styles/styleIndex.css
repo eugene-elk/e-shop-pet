@@ -23,6 +23,7 @@
 	flex-direction: column;
 	align-items: center;
 	font-family: 'Helvetica';
+	margin-top: 10px;
 }
 
 .products-center {
